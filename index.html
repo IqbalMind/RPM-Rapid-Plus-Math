@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>RPM: Rapid Plus Math</title>
+    <meta name="description"
+        content="RPM: Rapid Plus Math is a fast-paced arithmetic game to improve your mental math skills. Challenge yourself to solve equations as quickly as possible and climb the high score leaderboard.">
+    <meta name="keywords" content="RPM, Rapid Plus Math, arithmetic, mental math, game">
+    <meta name="author" content="Your Name Here">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Open Graph meta tags for social media sharing -->
+    <meta property="og:title" content="RPM: Rapid Plus Math">
+    <meta property="og:description"
+        content="RPM: Rapid Plus Math is a fast-paced arithmetic game to improve your mental math skills. Challenge yourself to solve equations as quickly as possible and climb the high score leaderboard.">
+    <meta property="og:image" content="https://i.imgur.com/Z319bQR.png">
+    <meta property="og:url" content="https://unicodecreative.com/rpm">
+    <meta property="og:type" content="website">
+
+    <!-- Twitter Card meta tags for social media sharing -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="RPM: Rapid Plus Math">
+    <meta name="twitter:description"
+        content="RPM: Rapid Plus Math is a fast-paced arithmetic game to improve your mental math skills. Challenge yourself to solve equations as quickly as possible and climb the high score leaderboard.">
+    <meta name="twitter:image" content="https://i.imgur.com/Z319bQR.png">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="favicon.png">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body class="math-background">
+    <div class="math-background">
+        <main>
+            <div class="game-panel">
+                <h1>RPM: Rapid Plus Math</h1>
+                <p>Answer as many math questions as you can in 60 seconds! <br><i>*You can use the enter button to answer</i></p>
+                <div id="menu">
+                    <button class="button" id="startButton">Start</button>
+                </div>
+                <div id="game" class="form-hidden">
+                    <div id="question"></div>
+                    <form>
+                        <label for="answer">Answer:</label>
+                        <input type="number" id="answer" name="answer" min="1" max="100" required>
+                        <button class="button" type="submit">Submit</button>
+                    </form>
+                    <p id="score">Score: 0</p>
+                    <p id="time">Time: 60</p>
+                    <div class="progress-container form-hidden">
+                        <div class="progress-bar"></div>
+                    </div>
+                    <button class="button" id="start-again-button" style="display:none;">Start Again</button>
+                </div>
+                <audio id="myAudio" autoplay hidden>
+                    <source src="Game Intense.wav" type="audio/wav">
+                </audio>
+            </div>
+        </main>
+    </div>
+    <script src="game.js"></script>
+</body>
+
+</html>
