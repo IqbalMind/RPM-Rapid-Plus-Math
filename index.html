@@ -7,7 +7,7 @@
     <meta name="description"
         content="RPM: Rapid Plus Math is a fast-paced arithmetic game to improve your mental math skills. Challenge yourself to solve equations as quickly as possible and climb the high score leaderboard.">
     <meta name="keywords" content="RPM, Rapid Plus Math, arithmetic, mental math, game">
-    <meta name="author" content="Muhamad Iqbal Nurmanditya">
+    <meta name="author" content="Your Name Here">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <!-- Open Graph meta tags for social media sharing -->
@@ -27,6 +27,7 @@
 
     <!-- Favicon -->
     <link rel="icon" type="image/png" href="favicon.png">
+
     <link rel="stylesheet" href="style.css">
 </head>
 
@@ -34,7 +35,7 @@
     <div class="math-background">
         <main>
             <div class="game-panel">
-                <h1>RPM: Rapid Plus Math</h1>
+                <h1 class="title">RPM: Rapid Plus Math</h1>
                 <p>Answer as many math questions as you can in 60 seconds! <br><i>*You can use the enter button to answer</i></p>
                 <div id="menu">
                     <button class="button" id="startButton">Start</button>
@@ -48,6 +49,7 @@
                     </form>
                     <p id="score">Score: 0</p>
                     <p id="time">Time: 60</p>
+                    <p id="high-score">High score: 0</p>
                     <div class="progress-container form-hidden">
                         <div class="progress-bar"></div>
                     </div>
@@ -58,6 +60,14 @@
                 </audio>
             </div>
         </main>
+        <div class="floating-button">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="24px" height="24px">
+                <path d="M0 0h24v24H0z" fill="none" />
+                <path
+                    d="M12 2C6.486 2 2 6.486 2 12s4.486 10 10 10 10-4.486 10-10S17.514 2 12 2zm0 15a1 1 0 1 1 0-2 1 1 0 0 1 0 2zm1-8v6h-2V9h2"
+                    fill="#ffffff" />
+            </svg>
+        </div>
     </div>
     <script src="game.js"></script>
 </body>
