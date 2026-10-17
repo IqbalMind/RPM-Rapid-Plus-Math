@@ -1,5 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Bangers&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Chakra+Petch:ital,wght@0,600;0,700;0,800;1,700&family=Nunito:wght@400;600;700;800;900&family=Bangers&display=swap');
 
 :root {
     --bg-color: #071527;
@@ -23,7 +22,7 @@
 [data-theme="light"] {
     --bg-color: #eef3f8;
     --pattern-img: url('math-pattern-light.svg');
-    --nav-bg: rgba(255, 255, 255, 0.7);
+    --nav-bg: rgba(255, 255, 255, 0.75);
     --nav-btn-bg: rgba(0, 76, 140, 0.08);
     --nav-btn-color: #004c8c;
     --panel-bg: linear-gradient(145deg, #0077c8 0%, #005a9c 100%);
@@ -84,7 +83,8 @@ body {
 }
 
 .nav-brand {
-    font-family: 'Bangers', cursive, sans-serif;
+    font-family: 'Chakra Petch', 'Bangers', cursive, sans-serif;
+    font-weight: 800;
     font-size: 1.5rem;
     letter-spacing: 2px;
     color: #F1C40F;
@@ -106,16 +106,31 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    font-size: 1.15rem;
     cursor: pointer;
     transition: all 0.25s ease;
     outline: none;
+    padding: 0;
 }
 
 .nav-btn:hover {
     background: #F1C40F;
     color: #004c8c;
     transform: scale(1.1);
+}
+
+.svg-icon {
+    width: 20px;
+    height: 20px;
+    stroke: currentColor;
+    fill: none;
+    transition: stroke 0.2s ease;
+}
+
+.btn-icon {
+    display: inline-block;
+    vertical-align: middle;
+    margin-right: 6px;
+    margin-top: -2px;
 }
 
 /* Main Container */
@@ -217,7 +232,8 @@ main {
 }
 
 .hud-val {
-    font-family: 'Bangers', cursive, sans-serif;
+    font-family: 'Chakra Petch', sans-serif;
+    font-weight: 700;
     font-size: 2.1rem;
     letter-spacing: 1px;
     color: #ffffff;
@@ -245,15 +261,16 @@ main {
     border-radius: 8px;
 }
 
-/* Large Equation Display */
+/* Large Equation Display with Unambiguous Font */
 #question-wrapper {
     margin: 8px 0 18px 0;
 }
 
 .math-equation {
-    font-family: 'Bangers', cursive, sans-serif;
+    font-family: 'Chakra Petch', sans-serif;
+    font-weight: 800;
     font-size: 5rem;
-    letter-spacing: 4px;
+    letter-spacing: 2px;
     color: #ffffff;
     text-shadow: 0 4px 16px rgba(0, 0, 0, 0.5);
     display: inline-block;
@@ -283,10 +300,11 @@ form {
 }
 
 input[type="number"] {
+    font-family: 'Chakra Petch', sans-serif;
+    font-weight: 800;
     width: 230px;
     height: 72px;
     font-size: 2.8rem;
-    font-weight: 900;
     text-align: center;
     border-radius: 14px;
     border: 3px solid var(--input-border);
@@ -319,8 +337,9 @@ input[type=number] {
 .button {
     background-color: var(--btn-bg);
     color: var(--btn-color);
-    font-family: 'Bangers', cursive, sans-serif;
-    font-size: 1.4rem;
+    font-family: 'Chakra Petch', 'Bangers', cursive, sans-serif;
+    font-weight: 800;
+    font-size: 1.35rem;
     letter-spacing: 1.5px;
     border-radius: 12px;
     padding: 12px 32px;
@@ -328,6 +347,9 @@ input[type=number] {
     border: none;
     box-shadow: 0 6px 14px rgba(0, 0, 0, 0.3);
     transition: all 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .button:hover {

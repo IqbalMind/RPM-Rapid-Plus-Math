@@ -34,20 +34,29 @@ const audio = document.getElementById("myAudio");
 
 // Navigation & Modal Elements
 const themeToggle = document.getElementById("themeToggle");
-const themeIcon = document.getElementById("themeIcon");
+const iconSun = document.getElementById("iconSun");
+const iconMoon = document.getElementById("iconMoon");
 const soundToggle = document.getElementById("soundToggle");
-const soundIcon = document.getElementById("soundIcon");
+const soundIconOn = document.getElementById("soundIconOn");
+const soundIconOff = document.getElementById("soundIconOff");
 const infoButton = document.getElementById("infoButton");
 const infoModal = document.getElementById("infoModal");
 const closeModal = document.getElementById("closeModal");
 
-// --- THEME MANAGEMENT ---
+// --- THEME MANAGEMENT (SVG Icons) ---
 function applyTheme(theme) {
     currentTheme = theme;
     htmlEl.setAttribute("data-theme", theme);
     localStorage.setItem("rpm_theme", theme);
-    if (themeIcon) {
-        themeIcon.textContent = theme === "dark" ? "☀️" : "🌙";
+
+    if (iconSun && iconMoon) {
+        if (theme === "dark") {
+            iconSun.classList.remove("form-hidden");
+            iconMoon.classList.add("form-hidden");
+        } else {
+            iconSun.classList.add("form-hidden");
+            iconMoon.classList.remove("form-hidden");
+        }
     }
 }
 applyTheme(currentTheme);
@@ -59,10 +68,16 @@ if (themeToggle) {
     });
 }
 
-// --- SOUND MANAGEMENT ---
+// --- SOUND MANAGEMENT (SVG Icons) ---
 function updateSoundDisplay() {
-    if (soundIcon) {
-        soundIcon.textContent = soundEnabled ? "🔊" : "🔇";
+    if (soundIconOn && soundIconOff) {
+        if (soundEnabled) {
+            soundIconOn.classList.remove("form-hidden");
+            soundIconOff.classList.add("form-hidden");
+        } else {
+            soundIconOn.classList.add("form-hidden");
+            soundIconOff.classList.remove("form-hidden");
+        }
     }
 }
 updateSoundDisplay();
