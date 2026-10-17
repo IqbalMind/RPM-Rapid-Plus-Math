@@ -1,191 +1,456 @@
-@import url('https://fonts.googleapis.com/css2?family=Nunito&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Bangers&display=swap');
 
-/* Define the styles for the body */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
 body {
-    font-family: Nunito, sans-serif;
-    background-color: #0b1a2d;
+    font-family: 'Nunito', sans-serif;
+    background-color: #081220;
     background-image: url('interlaced.png');
     background-repeat: repeat;
-    width: 100%;
+    color: #ffffff;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     overflow-x: hidden;
+    padding: 20px;
 }
 
-/* Define the styles for the main content */
 main {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    margin-top: 20px;
-    transition: all 0.3s ease-in-out;
+    width: 100%;
+    max-width: 580px;
+    margin: auto;
 }
 
-/* Define the styles for the game panel */
+/* Arcade Game Panel */
 .game-panel {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    background-color: #0071c5;
-    border-radius: 10px;
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
-    color: white;
-    padding: 40px;
-    margin-top: 40px;
-    transition: all 0.3s ease;
-    max-width: 100%;
-}
-
-/* Media query for screens with a maximum width of 767px (i.e. mobile devices) */
-@media only screen and (max-width: 767px) {
-
-    /* Modify the styles for the game panel */
-    .game-panel {
-        padding: 20px;
-        margin-top: 20px;
-    }
-}
-
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-    font-weight: 800;
-    color: #fff;
-}
-
-.title{
-    font-family: Bangers, display;
-    letter-spacing: 3px;
-    font-size: 3em;
+    background: linear-gradient(145deg, #0264b3 0%, #004c8c 100%);
+    border-radius: 20px;
+    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(255, 255, 255, 0.12);
+    padding: 36px 30px;
     text-align: center;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s ease;
 }
 
-p {
-    font-size: 16px;
-    line-height: 1.6;
-    color: #fff;
+.title {
+    font-family: 'Bangers', cursive, sans-serif;
+    letter-spacing: 2.5px;
+    font-size: 3.2rem;
+    line-height: 1.1;
+    color: #ffffff;
+    text-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+    margin-bottom: 8px;
 }
 
-a {
+.subtitle {
+    font-size: 1rem;
+    color: rgba(255, 255, 255, 0.9);
+    margin-bottom: 24px;
+    line-height: 1.5;
+}
+
+.hint-text {
+    font-size: 0.85rem;
     color: #F1C40F;
 }
 
+/* Menu Screen */
+#menu {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    padding: 20px 0;
+}
+
+.menu-stats {
+    background: rgba(0, 0, 0, 0.25);
+    padding: 12px 28px;
+    border-radius: 12px;
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Top HUD Dashboard */
+.hud-dashboard {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    margin-bottom: 16px;
+}
+
+.hud-card {
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 12px;
+    padding: 10px 8px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    transition: transform 0.2s ease;
+}
+
+.hud-card.timer-critical {
+    background: rgba(220, 38, 38, 0.35);
+    border-color: #ef4444;
+    animation: pulseTimer 0.8s infinite alternate;
+}
+
+@keyframes pulseTimer {
+    from { transform: scale(1); }
+    to { transform: scale(1.04); }
+}
+
+.hud-label {
+    font-size: 0.72rem;
+    font-weight: 800;
+    letter-spacing: 1px;
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.hud-val {
+    font-family: 'Bangers', cursive, sans-serif;
+    font-size: 2rem;
+    letter-spacing: 1px;
+    color: #ffffff;
+}
+
+.highlight {
+    color: #F1C40F !important;
+}
+
+/* Progress Bar */
 .progress-container {
     width: 100%;
-    height: 10px;
-    background-color: #ddd;
+    height: 8px;
+    background-color: rgba(0, 0, 0, 0.35);
+    border-radius: 8px;
+    overflow: hidden;
+    margin-bottom: 24px;
 }
 
 .progress-bar {
     height: 100%;
-    background-color: #F1C40F;
+    background: linear-gradient(90deg, #F1C40F, #f39c12);
     width: 0%;
-    transition: all 0.3s ease;
+    transition: width 0.3s ease;
+    border-radius: 8px;
 }
 
+/* Large Equation Display */
+#question-wrapper {
+    margin: 10px 0 20px 0;
+}
+
+.math-equation {
+    font-family: 'Bangers', cursive, sans-serif;
+    font-size: 4.8rem;
+    letter-spacing: 4px;
+    color: #ffffff;
+    text-shadow: 0 4px 16px rgba(0, 0, 0, 0.5);
+    display: inline-block;
+    padding: 4px 20px;
+    border-radius: 16px;
+    transition: transform 0.15s ease;
+}
+
+/* Form & Input */
+form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+}
+
+input[type="number"] {
+    width: 220px;
+    height: 72px;
+    font-size: 2.8rem;
+    font-weight: 900;
+    text-align: center;
+    border-radius: 14px;
+    border: 3px solid #F1C40F;
+    background-color: #ffffff;
+    color: #0b1a2d;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+    outline: none;
+    transition: all 0.2s ease;
+    caret-color: #0071C5;
+}
+
+input[type="number"]:focus {
+    transform: scale(1.03);
+    box-shadow: 0 0 25px rgba(241, 196, 15, 0.7);
+    border-color: #ffffff;
+}
+
+/* Hide Spinners */
+input[type=number]::-webkit-outer-spin-button,
+input[type=number]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+input[type=number] {
+    -moz-appearance: textfield;
+}
+
+/* Buttons */
 .button {
-    background-color: #0071C5;
-    color: #fff;
-    border-radius: 4px;
-    padding: 12px 24px;
-    font-size: 16px;
+    background-color: #F1C40F;
+    color: #004c8c;
+    font-family: 'Bangers', cursive, sans-serif;
+    font-size: 1.4rem;
+    letter-spacing: 1.5px;
+    border-radius: 12px;
+    padding: 12px 32px;
     cursor: pointer;
-    transition: all 0.3s ease;
-    border: 2px solid #F1C40F;
+    border: none;
+    box-shadow: 0 6px 14px rgba(0, 0, 0, 0.3);
+    transition: all 0.2s ease;
 }
 
 .button:hover {
+    background-color: #ffffff;
+    color: #004c8c;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+}
+
+.button:active {
+    transform: translateY(1px);
+}
+
+.submit-btn {
+    padding: 10px 36px;
+    font-size: 1.25rem;
+}
+
+.pulse-btn {
+    animation: btnPulse 2s infinite ease-in-out;
+}
+
+@keyframes btnPulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.04); }
+}
+
+/* Game Over Card */
+.game-over-box {
+    background: rgba(0, 0, 0, 0.4);
+    border: 2px solid rgba(241, 196, 15, 0.6);
+    border-radius: 16px;
+    padding: 24px 20px;
+    margin-top: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 14px;
+    animation: fadeIn 0.3s ease-out;
+}
+
+.game-over-title {
+    font-family: 'Bangers', cursive, sans-serif;
+    font-size: 2.8rem;
+    letter-spacing: 2px;
+    color: #ef4444;
+}
+
+.game-over-score {
+    font-size: 1.5rem;
+    font-weight: 700;
+}
+
+.record-banner {
     background-color: #F1C40F;
-    color: #0071C5;
-    border: 2px solid #015798;
-    transition: all 0.5s ease;  
+    color: #0b1a2d;
+    font-weight: 900;
+    padding: 6px 18px;
+    border-radius: 20px;
+    font-size: 1rem;
+    letter-spacing: 1px;
+}
+
+/* Correct/Incorrect Flash Animation */
+.correct-flash {
+    animation: flashGreen 0.25s ease;
+}
+
+@keyframes flashGreen {
+    0% { transform: scale(1); filter: brightness(1); }
+    50% { transform: scale(1.08); color: #4ade80; }
+    100% { transform: scale(1); filter: brightness(1); }
+}
+
+/* Floating Controls */
+.floating-controls {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    z-index: 50;
 }
 
 .floating-button {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    width: 40px;
-    height: 40px;
+    width: 46px;
+    height: 46px;
     background-color: #0077FF;
+    color: #ffffff;
     border-radius: 50%;
     display: flex;
     justify-content: center;
     align-items: center;
     cursor: pointer;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
-    transition: all 0.5s ease;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+    transition: all 0.3s ease;
+    border: none;
 }
 
 .floating-button:hover {
     background-color: #F1C40F;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
-    transition: all 0.5s ease;
+    color: #004c8c;
+    transform: scale(1.1);
 }
 
-form {
+/* Modal Overlay & Card */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.75);
+    backdrop-filter: blur(4px);
     display: flex;
-    flex-direction: column;
-    align-items: center;
     justify-content: center;
-    margin: 20px;
+    align-items: center;
+    padding: 20px;
+    z-index: 100;
+    animation: fadeIn 0.2s ease;
+}
+
+.modal-card {
+    background: #004c8c;
+    border: 2px solid #F1C40F;
+    border-radius: 18px;
+    padding: 32px 28px;
+    max-width: 480px;
+    width: 100%;
+    color: #ffffff;
+    position: relative;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.8);
+}
+
+.modal-close {
+    position: absolute;
+    top: 14px;
+    right: 18px;
+    background: transparent;
+    border: none;
+    color: #ffffff;
+    font-size: 2rem;
+    cursor: pointer;
+    line-height: 1;
+    transition: color 0.2s;
+}
+
+.modal-close:hover {
+    color: #F1C40F;
+}
+
+.modal-title {
+    font-family: 'Bangers', cursive, sans-serif;
+    font-size: 2.2rem;
+    letter-spacing: 2px;
+    color: #F1C40F;
+    margin-bottom: 12px;
+}
+
+.modal-desc {
+    font-size: 1rem;
+    line-height: 1.5;
+    margin-bottom: 20px;
+    color: rgba(255, 255, 255, 0.95);
+}
+
+.modal-section {
+    background: rgba(0, 0, 0, 0.25);
+    padding: 16px;
+    border-radius: 12px;
+    margin-bottom: 20px;
+    text-align: left;
+}
+
+.modal-section h3 {
+    font-size: 1.1rem;
+    color: #F1C40F;
+    margin-bottom: 10px;
+}
+
+.modal-section ul {
+    list-style-position: inside;
+    font-size: 0.92rem;
+    line-height: 1.6;
+}
+
+.modal-footer {
+    font-size: 0.88rem;
+    text-align: center;
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.modal-links {
+    margin-top: 6px;
+}
+
+.modal-links a {
+    color: #F1C40F;
+    text-decoration: none;
+    font-weight: 700;
+}
+
+.modal-links a:hover {
+    text-decoration: underline;
 }
 
 .form-hidden {
-    display: none;
+    display: none !important;
 }
 
-label {
-    font-size: 18px;
-    color: #fff;
-    margin-bottom: 5px;
+@keyframes fadeIn {
+    from { opacity: 0; transform: scale(0.96); }
+    to { opacity: 1; transform: scale(1); }
 }
 
-/* For webkit browsers */
-input[type=number]::-webkit-outer-spin-button,
-input[type=number]::-webkit-inner-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
-    display: none;
-}
+/* Responsive adjustments */
+@media (max-width: 600px) {
+    .game-panel {
+        padding: 26px 18px;
+    }
 
-/* For Firefox */
-input[type=number] {
-    -moz-appearance: textfield;
-}
+    .title {
+        font-size: 2.5rem;
+    }
 
-input[type="text"],
-input[type="number"],
-textarea {
-    width: 100%;
-    padding: 10px;
-    border-radius: 5px;
-    border: none;
-    margin-bottom: 20px;
-    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
-    font-size: 16px;
-    background-color: #fff;
-}
+    .math-equation {
+        font-size: 3.8rem;
+    }
 
-input[type="text"]:focus,
-input[type="number"]:focus,
-textarea:focus {
-    border: 2px solid #F1C40F;
-    outline: none;
-}
-
-input[type="submit"] {
-    background-color: #f1c40f;
-    color: #fff;
-    border: none;
-    border-radius: 5px;
-    padding: 10px 20px;
-    font-size: 16px;
-    cursor: pointer;
-    transition: all 0.3s ease-in-out;
-    border: 2px solid #F1C40F;
+    input[type="number"] {
+        width: 180px;
+        height: 64px;
+        font-size: 2.3rem;
+    }
 }

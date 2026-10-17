@@ -1,25 +1,51 @@
-// Define variables
-var score = 0;
-var highScore = parseInt(localStorage.getItem("highScore"), 10) || 0;
-var time = 60;
-var intervalId = null;
-var currentAnswer = null;
+// RPM: Rapid Plus Math - Game Engine
 
+// State variables
+let score = 0;
+let highScore = parseInt(localStorage.getItem("highScore"), 10) || 0;
+let time = 60;
+let intervalId = null;
+let currentAnswer = null;
+let soundEnabled = true;
+
+// DOM Elements
 const progressBar = document.querySelector('.progress-bar');
-const progressBarc = document.querySelector('.progress-container');
 const scoreEl = document.getElementById("score");
 const timeEl = document.getElementById("time");
+const timeCard = timeEl ? timeEl.closest('.hud-card') : null;
 const highScoreEl = document.getElementById("high-score");
+const menuHighScoreEl = document.getElementById("menu-high-score");
 const questionEl = document.getElementById("question");
 const answerInput = document.getElementById("answer");
+const formEl = document.getElementById("answerForm");
 const startBtn = document.getElementById("startButton");
 const startAgainBtn = document.getElementById("start-again-button");
 const menuEl = document.getElementById("menu");
 const gameEl = document.getElementById("game");
-const formEl = document.querySelector("form");
+const gameOverCard = document.getElementById("gameOverCard");
+const finalScoreVal = document.getElementById("finalScoreVal");
+const newRecordBanner = document.getElementById("newRecordBanner");
+const questionWrapper = document.getElementById("question-wrapper");
 const audio = document.getElementById("myAudio");
 
-// Update progress bar based on elapsed time
+// Modal Elements
+const infoButton = document.getElementById("infoButton");
+const infoModal = document.getElementById("infoModal");
+const closeModal = document.getElementById("closeModal");
+
+// Sound Elements
+const soundToggle = document.getElementById("soundToggle");
+const soundIconOn = document.getElementById("soundIconOn");
+const soundIconOff = document.getElementById("soundIconOff");
+
+// Initialize High Scores in UI
+function refreshHighScoreDisplays() {
+    if (highScoreEl) highScoreEl.textContent = highScore;
+    if (menuHighScoreEl) menuHighScoreEl.textContent = highScore;
+}
+refreshHighScoreDisplays();
+
+// Update Progress Bar
 function updateProgress() {
     const elapsed = 60 - time;
     const progressPercent = Math.min(100, Math.max(0, (elapsed / 60) * 100));
@@ -28,141 +54,183 @@ function updateProgress() {
     }
 }
 
-// Display high score on page load
-function displayHighScore() {
-    if (highScoreEl) {
-        highScoreEl.textContent = "High score: " + highScore;
+// Generate New Math Equation
+function displayQuestion() {
+    const a = Math.floor(Math.random() * 12) + 1;
+    const b = Math.floor(Math.random() * 12) + 1;
+    currentAnswer = a + b;
+    if (questionEl) {
+        questionEl.textContent = `${a} + ${b}`;
     }
 }
-displayHighScore();
 
-// Add event listener to start button
-startBtn.addEventListener("click", function () {
-    menuEl.style.display = "none";
-    gameEl.classList.remove("form-hidden");
-    gameEl.style.display = "block";
-    startGame();
-});
-
-// Define function to start game
+// Start Game
 function startGame() {
-    // Clear any previous interval to prevent timer leaks
     if (intervalId) {
         clearInterval(intervalId);
         intervalId = null;
     }
 
-    // Reset game state
     score = 0;
     time = 60;
 
-    // Reset UI elements
-    scoreEl.textContent = "Score: 0";
-    timeEl.textContent = "Time: 60";
-    displayHighScore();
-    
+    scoreEl.textContent = "0";
+    timeEl.textContent = "60";
+    if (timeCard) timeCard.classList.remove("timer-critical");
+    refreshHighScoreDisplays();
+
+    // Show gameplay UI, hide game-over card
+    if (gameOverCard) gameOverCard.classList.add("form-hidden");
+    if (newRecordBanner) newRecordBanner.classList.add("form-hidden");
     formEl.classList.remove("form-hidden");
-    questionEl.classList.remove("form-hidden");
-    progressBarc.classList.remove("form-hidden");
-    startAgainBtn.style.display = "none";
+    questionWrapper.classList.remove("form-hidden");
+    if (progressBar) progressBar.style.width = "0%";
 
-    if (progressBar) {
-        progressBar.style.width = "0%";
-    }
-
-    // Display first question
     displayQuestion();
-
-    // Start timer interval
     intervalId = setInterval(updateTimer, 1000);
 
-    // Audio setup
-    if (audio) {
+    // Audio Playback
+    if (audio && soundEnabled) {
         audio.currentTime = 0;
         audio.play().catch(function () {
             // Autoplay policy fallback
         });
     }
 
-    // Focus input field
     answerInput.value = "";
     answerInput.focus();
 }
 
-// Define function to display question
-function displayQuestion() {
-    var a = Math.floor(Math.random() * 10) + 1;
-    var b = Math.floor(Math.random() * 10) + 1;
-    currentAnswer = a + b;
-    questionEl.textContent = "What is " + a + " + " + b + "?";
-}
-
-// Define function to update timer
+// Timer Countdown
 function updateTimer() {
     time--;
-    timeEl.textContent = "Time: " + time;
+    timeEl.textContent = time;
     updateProgress();
+
+    if (time <= 10 && timeCard) {
+        timeCard.classList.add("timer-critical");
+    }
+
     if (time <= 0) {
         endGame();
     }
 }
 
-// Define function to end game
+// End Game
 function endGame() {
     if (intervalId) {
         clearInterval(intervalId);
         intervalId = null;
     }
 
-    // Update high score in state and localStorage FIRST
+    let isNewRecord = false;
     if (score > highScore) {
         highScore = score;
         localStorage.setItem("highScore", highScore.toString());
+        isNewRecord = true;
     }
 
-    // Display final score and updated high score
-    scoreEl.textContent = "Final score: " + score;
-    displayHighScore();
+    refreshHighScoreDisplays();
 
-    // Toggle controls
+    // Hide active question & form
     formEl.classList.add("form-hidden");
-    progressBarc.classList.add("form-hidden");
-    questionEl.classList.add("form-hidden");
-    startAgainBtn.style.display = "block";
+    questionWrapper.classList.add("form-hidden");
+
+    // Show Game Over Summary Card
+    if (finalScoreVal) finalScoreVal.textContent = score;
+    if (newRecordBanner) {
+        if (isNewRecord && score > 0) {
+            newRecordBanner.classList.remove("form-hidden");
+        } else {
+            newRecordBanner.classList.add("form-hidden");
+        }
+    }
+    if (gameOverCard) gameOverCard.classList.remove("form-hidden");
 
     if (audio) {
         audio.pause();
     }
 }
 
-// Add event listener to start again button
-startAgainBtn.addEventListener("click", function () {
-    menuEl.style.display = "none";
-    gameEl.style.display = "block";
-    startGame();
-});
-
-// Define function to handle form submit
+// Form Submit Handler
 formEl.addEventListener("submit", function (event) {
     event.preventDefault();
-    var userAnswer = parseInt(answerInput.value, 10);
+    const userAnswer = parseInt(answerInput.value, 10);
 
-    // Check if answer matches generated equation
     if (userAnswer === currentAnswer) {
         score++;
-        // Update high score in real-time if beaten
+        scoreEl.textContent = score;
+
+        // Visual flash feedback
+        if (questionEl) {
+            questionEl.classList.remove("correct-flash");
+            void questionEl.offsetWidth; // trigger reflow
+            questionEl.classList.add("correct-flash");
+        }
+
+        // Live high score update
         if (score > highScore) {
             highScore = score;
             localStorage.setItem("highScore", highScore.toString());
-            displayHighScore();
+            refreshHighScoreDisplays();
         }
     }
 
-    // Update current score display
-    scoreEl.textContent = "Score: " + score;
-
-    // Display next question and reset input
     displayQuestion();
     answerInput.value = "";
     answerInput.focus();
+});
+
+// Event Listeners for Game Buttons
+startBtn.addEventListener("click", function () {
+    menuEl.style.display = "none";
+    gameEl.classList.remove("form-hidden");
+    startGame();
+});
+
+startAgainBtn.addEventListener("click", function () {
+    startGame();
+});
+
+// Sound Toggle Control
+if (soundToggle) {
+    soundToggle.addEventListener("click", function () {
+        soundEnabled = !soundEnabled;
+        if (soundEnabled) {
+            soundIconOn.classList.remove("form-hidden");
+            soundIconOff.classList.add("form-hidden");
+            if (intervalId && audio) {
+                audio.play().catch(function () {});
+            }
+        } else {
+            soundIconOn.classList.add("form-hidden");
+            soundIconOff.classList.remove("form-hidden");
+            if (audio) audio.pause();
+        }
+    });
+}
+
+// Modal Toggle Handlers
+if (infoButton && infoModal) {
+    infoButton.addEventListener("click", function () {
+        infoModal.classList.remove("form-hidden");
+    });
+}
+
+if (closeModal && infoModal) {
+    closeModal.addEventListener("click", function () {
+        infoModal.classList.add("form-hidden");
+    });
+}
+
+window.addEventListener("click", function (event) {
+    if (event.target === infoModal) {
+        infoModal.classList.add("form-hidden");
+    }
+});
+
+window.addEventListener("keydown", function (event) {
+    if (event.key === "Escape" && infoModal && !infoModal.classList.contains("form-hidden")) {
+        infoModal.classList.add("form-hidden");
+    }
 });
