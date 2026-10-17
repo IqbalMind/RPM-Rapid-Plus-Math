@@ -1,18 +1,22 @@
 // RPM: Rapid Plus Math - Game Engine
 
-// State variables
+// Game State
 let score = 0;
 let highScore = parseInt(localStorage.getItem("highScore"), 10) || 0;
 let time = 60;
 let intervalId = null;
 let currentAnswer = null;
-let soundEnabled = true;
+
+// Settings State (Theme & Sound)
+let currentTheme = localStorage.getItem("rpm_theme") || "dark";
+let soundEnabled = localStorage.getItem("rpm_sound") !== "false";
 
 // DOM Elements
+const htmlEl = document.documentElement;
 const progressBar = document.querySelector('.progress-bar');
 const scoreEl = document.getElementById("score");
 const timeEl = document.getElementById("time");
-const timeCard = timeEl ? timeEl.closest('.hud-card') : null;
+const timeCard = document.getElementById("timeCard");
 const highScoreEl = document.getElementById("high-score");
 const menuHighScoreEl = document.getElementById("menu-high-score");
 const questionEl = document.getElementById("question");
@@ -28,24 +32,67 @@ const newRecordBanner = document.getElementById("newRecordBanner");
 const questionWrapper = document.getElementById("question-wrapper");
 const audio = document.getElementById("myAudio");
 
-// Modal Elements
+// Navigation & Modal Elements
+const themeToggle = document.getElementById("themeToggle");
+const themeIcon = document.getElementById("themeIcon");
+const soundToggle = document.getElementById("soundToggle");
+const soundIcon = document.getElementById("soundIcon");
 const infoButton = document.getElementById("infoButton");
 const infoModal = document.getElementById("infoModal");
 const closeModal = document.getElementById("closeModal");
 
-// Sound Elements
-const soundToggle = document.getElementById("soundToggle");
-const soundIconOn = document.getElementById("soundIconOn");
-const soundIconOff = document.getElementById("soundIconOff");
+// --- THEME MANAGEMENT ---
+function applyTheme(theme) {
+    currentTheme = theme;
+    htmlEl.setAttribute("data-theme", theme);
+    localStorage.setItem("rpm_theme", theme);
+    if (themeIcon) {
+        themeIcon.textContent = theme === "dark" ? "☀️" : "🌙";
+    }
+}
+applyTheme(currentTheme);
 
-// Initialize High Scores in UI
+if (themeToggle) {
+    themeToggle.addEventListener("click", function () {
+        const nextTheme = currentTheme === "dark" ? "light" : "dark";
+        applyTheme(nextTheme);
+    });
+}
+
+// --- SOUND MANAGEMENT ---
+function updateSoundDisplay() {
+    if (soundIcon) {
+        soundIcon.textContent = soundEnabled ? "🔊" : "🔇";
+    }
+}
+updateSoundDisplay();
+
+if (soundToggle) {
+    soundToggle.addEventListener("click", function () {
+        soundEnabled = !soundEnabled;
+        localStorage.setItem("rpm_sound", soundEnabled.toString());
+        updateSoundDisplay();
+
+        if (soundEnabled) {
+            if (intervalId && audio) {
+                audio.play().catch(function () {});
+            }
+        } else {
+            if (audio) {
+                audio.pause();
+            }
+        }
+    });
+}
+
+// --- HIGH SCORE INITIALIZATION ---
 function refreshHighScoreDisplays() {
     if (highScoreEl) highScoreEl.textContent = highScore;
     if (menuHighScoreEl) menuHighScoreEl.textContent = highScore;
 }
 refreshHighScoreDisplays();
 
-// Update Progress Bar
+// --- PROGRESS BAR ---
 function updateProgress() {
     const elapsed = 60 - time;
     const progressPercent = Math.min(100, Math.max(0, (elapsed / 60) * 100));
@@ -54,7 +101,7 @@ function updateProgress() {
     }
 }
 
-// Generate New Math Equation
+// --- QUESTION GENERATION ---
 function displayQuestion() {
     const a = Math.floor(Math.random() * 12) + 1;
     const b = Math.floor(Math.random() * 12) + 1;
@@ -64,7 +111,7 @@ function displayQuestion() {
     }
 }
 
-// Start Game
+// --- START GAME ---
 function startGame() {
     if (intervalId) {
         clearInterval(intervalId);
@@ -79,7 +126,7 @@ function startGame() {
     if (timeCard) timeCard.classList.remove("timer-critical");
     refreshHighScoreDisplays();
 
-    // Show gameplay UI, hide game-over card
+    // Reset view states
     if (gameOverCard) gameOverCard.classList.add("form-hidden");
     if (newRecordBanner) newRecordBanner.classList.add("form-hidden");
     formEl.classList.remove("form-hidden");
@@ -101,7 +148,7 @@ function startGame() {
     answerInput.focus();
 }
 
-// Timer Countdown
+// --- TIMER COUNTDOWN ---
 function updateTimer() {
     time--;
     timeEl.textContent = time;
@@ -116,7 +163,7 @@ function updateTimer() {
     }
 }
 
-// End Game
+// --- END GAME ---
 function endGame() {
     if (intervalId) {
         clearInterval(intervalId);
@@ -132,7 +179,7 @@ function endGame() {
 
     refreshHighScoreDisplays();
 
-    // Hide active question & form
+    // Hide active question and input form
     formEl.classList.add("form-hidden");
     questionWrapper.classList.add("form-hidden");
 
@@ -152,16 +199,19 @@ function endGame() {
     }
 }
 
-// Form Submit Handler
+// --- ANSWER SUBMISSION ---
 formEl.addEventListener("submit", function (event) {
     event.preventDefault();
-    const userAnswer = parseInt(answerInput.value, 10);
+    const rawVal = answerInput.value.trim();
+    if (!rawVal) return;
+
+    const userAnswer = parseInt(rawVal, 10);
 
     if (userAnswer === currentAnswer) {
         score++;
         scoreEl.textContent = score;
 
-        // Visual flash feedback
+        // Visual flash feedback on correct answer
         if (questionEl) {
             questionEl.classList.remove("correct-flash");
             void questionEl.offsetWidth; // trigger reflow
@@ -174,6 +224,11 @@ formEl.addEventListener("submit", function (event) {
             localStorage.setItem("highScore", highScore.toString());
             refreshHighScoreDisplays();
         }
+    } else {
+        // Shake feedback on incorrect answer
+        answerInput.classList.remove("shake-error");
+        void answerInput.offsetWidth;
+        answerInput.classList.add("shake-error");
     }
 
     displayQuestion();
@@ -181,7 +236,7 @@ formEl.addEventListener("submit", function (event) {
     answerInput.focus();
 });
 
-// Event Listeners for Game Buttons
+// --- BUTTON LISTENERS ---
 startBtn.addEventListener("click", function () {
     menuEl.style.display = "none";
     gameEl.classList.remove("form-hidden");
@@ -192,25 +247,7 @@ startAgainBtn.addEventListener("click", function () {
     startGame();
 });
 
-// Sound Toggle Control
-if (soundToggle) {
-    soundToggle.addEventListener("click", function () {
-        soundEnabled = !soundEnabled;
-        if (soundEnabled) {
-            soundIconOn.classList.remove("form-hidden");
-            soundIconOff.classList.add("form-hidden");
-            if (intervalId && audio) {
-                audio.play().catch(function () {});
-            }
-        } else {
-            soundIconOn.classList.add("form-hidden");
-            soundIconOff.classList.remove("form-hidden");
-            if (audio) audio.pause();
-        }
-    });
-}
-
-// Modal Toggle Handlers
+// --- ABOUT / RULES MODAL ---
 if (infoButton && infoModal) {
     infoButton.addEventListener("click", function () {
         infoModal.classList.remove("form-hidden");
