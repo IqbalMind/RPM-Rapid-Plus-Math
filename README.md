@@ -1,22 +1,77 @@
-# RPM: Rapid Plus Math
-RPM: Rapid Plus Math is a web-based game designed to help users improve their mental arithmetic skills. The game presents users with a series of addition and subtraction problems and tracks their performance over time. The goal of the game is to solve as many problems as possible within a given time limit.
+# ⚡ RPM: Rapid Plus Math
 
-The game consists of a simple user interface with a progress bar, a timer, and a game panel. The progress bar displays the user's progress towards their goal, while the timer counts down the time remaining in the game. The game panel displays the addition and subtraction problems, along with the user's answer and the correct answer.
+[![Play Online](https://img.shields.io/badge/Play_Live-code.iqbalmind.id%2Fplayground%2Frpm-4169E1?style=for-the-badge&logo=google-chrome&logoColor=white)](https://code.iqbalmind.id/playground/rpm)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=for-the-badge)](LICENSE)
+[![Vanilla JS](https://img.shields.io/badge/JavaScript-Vanilla-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black)](https://developer.mozilla.org/en-US/docs/Web/JavaScript)
+[![HTML5 / CSS3](https://img.shields.io/badge/HTML5_%26_CSS3-Responsive-E34F26?style=for-the-badge&logo=html5&logoColor=white)](https://developer.mozilla.org/en-US/docs/Web/HTML)
 
-## Getting Started
-To get started with RPM: Rapid Plus Math, simply download or clone the project from GitHub and open the `index.html` file in your web browser. The game should start automatically and you can begin playing right away.
+**RPM: Rapid Plus Math** is a fast-paced, speed-arithmetic web game designed to sharpen your mental math reflex under pressure. Solve as many equations as you can in 60 seconds and set a new personal high score!
 
-## Playing the Game
-To play the game, simply solve the addition and subtraction problems presented to you on the game panel. Type your answer into the input field provided and hit enter to submit your answer. The game will then tell you whether your answer was correct or incorrect and display the correct answer.
+---
 
-The game consists of multiple rounds, each with a set number of problems to solve. Your goal is to solve as many problems as possible within the time limit. You can track your progress using the progress bar and the timer.
-![Image Preview](https://i.imgur.com/aObaB81.png)
+## 🎮 Play Online
 
-Main
-![Image Preview](https://i.imgur.com/Z319bQR.png)
+Try the game directly in your browser without any setup:
 
-## Contributing
-If you would like to contribute to RPM: Rapid Plus Math, simply fork the project on GitHub and submit a pull request with your changes. We welcome contributions of all kinds, including bug fixes, feature requests, and code improvements.
+👉 **[code.iqbalmind.id/playground/rpm](https://code.iqbalmind.id/playground/rpm)**
 
-## License
-RPM: Rapid Plus Math is licensed under the MIT License. See the [LICENSE](https://opensource.org/licenses/MIT) file for details.
+---
+
+## 🕹️ Gameplay & Features
+
+- **⏱️ 60-Second Blitz:** A 60-second countdown with an animated progress bar to test your calculation speed.
+- **🏆 Persistent High Score:** Your all-time best score is automatically saved locally using `localStorage` and updates in real-time as you break records.
+- **⚡ Keyboard-First Input:** Quickly submit answers by pressing `Enter` for zero friction.
+- **🎵 Intense Audio Experience:** Embedded background track to keep adrenaline high during speed calculation.
+- **📱 Fully Responsive:** Clean arcade UI optimized for desktop, tablets, and mobile devices.
+
+![Game Preview](https://i.imgur.com/aObaB81.png)
+
+---
+
+## 🚀 How to Play
+
+1. Click **Start** to begin the 60-second countdown.
+2. An equation (e.g., `What is 7 + 8?`) appears on the screen.
+3. Type your answer into the input field and hit `Enter` (or click **Submit**).
+4. Score increases immediately for each correct answer.
+5. When time runs out, your **Final Score** and updated **High Score** are displayed.
+6. Click **Start Again** to challenge your high score!
+
+---
+
+## 💻 Local Development & Setup
+
+No dependencies or build steps required. It runs on pure native web technologies:
+
+```bash
+# 1. Clone the repository
+git clone https://github.com/IqbalMind/RPM-Rapid-Plus-Math.git
+
+# 2. Navigate to the project directory
+cd RPM-Rapid-Plus-Math
+
+# 3. Open in your default browser
+open index.html   # On macOS
+# or start a lightweight local server:
+python3 -m http.server 8000
+```
+
+Then visit `http://localhost:8000` in your web browser.
+
+---
+
+## 🤝 Contributing
+
+Contributions, bug reports, and feature suggestions are welcome!
+1. Fork the Project
+2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your Changes (`git commit -m 'feat: add multiplication mode'`)
+4. Push to the Branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
+
+---
+
+## 📄 License
+
+This project is open-source and licensed under the **MIT License**. See the [LICENSE](LICENSE) file for details.
